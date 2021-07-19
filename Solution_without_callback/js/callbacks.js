@@ -28,8 +28,6 @@ function trigger () {
   };
 }
 
-document.querySelector('button').addEventListener("click", trigger);
-
 // Generate the markup for each profile
 function generateHTML(data) {
   const section = document.createElement('section');
@@ -51,3 +49,5 @@ function generateHTML(data) {
     `;
   }
 }
+
+document.querySelector('button').addEventListener("click", trigger);
