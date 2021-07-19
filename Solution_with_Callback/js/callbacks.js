@@ -48,6 +48,7 @@ function generateHTML(data) {
 
 btn.addEventListener('click', () => {
   document.querySelector('button').remove();
+  // call callback function
   getJSON(astrosUrl,
     data => {data.people.map(
     x => {getJSON(wikiUrl + x.name, generateHTML);
