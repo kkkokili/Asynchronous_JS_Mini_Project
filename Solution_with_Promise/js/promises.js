@@ -36,6 +36,7 @@ document.querySelector('button').addEventListener('click',
   and reject for when it's rejected.
  */
 function astroPromise(url) {
+  // typeof astroPromise(url) is an object
   return new Promise((resolve, reject) => {
 
     const xhr = new XMLHttpRequest();
