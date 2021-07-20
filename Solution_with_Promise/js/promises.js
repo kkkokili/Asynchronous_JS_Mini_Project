@@ -5,7 +5,8 @@ const peopleList = document.getElementById('people');
 
 document.querySelector('button').addEventListener('click',
   () => {
-    document.querySelector('button').remove();
+    // show loading when click the button
+    document.querySelector('button').innerHTML = 'Loading..';
     astroPromise(astrosUrl)
       .then(
         x => {
@@ -21,13 +22,17 @@ document.querySelector('button').addEventListener('click',
             }
           );
         }
+
       )
       .catch(
         y => {
           document.getElementById('people').innerHTML = y;
         }
       );
+
   });
+
+
 /**
  *  Step 1: Create promise
  *  We create the promise using the new keyword,followed by the Promise()
@@ -47,6 +52,8 @@ function astroPromise(url) {
       if (xhr.status === 200) {
         let data = JSON.parse(xhr.responseText);
         resolve(data);
+        // The button disappears after loading the data
+        document.querySelector('button').remove();
       } else {
         reject(Error(xhr.statusText));
       }
