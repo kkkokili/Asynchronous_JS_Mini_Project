@@ -16,8 +16,14 @@ const btn = document.querySelector('button');
 //  Fetch FUNCTIONS
 // ------------------------------------------
 fetchData(astroUrl)
-  .then(promise => {return assemble(promise.people);})
-  .then(data => fetchArray(data));
+  .then(promise => {
+    return promise.people.map(item=> {
+       const craft=item.craft;
+       fetch(wikiUrl+item.name).then(response=>response.json()).then(promise1=> {generateHTML(promise1,craft);});
+    });
+  });
+
+
 
 
 // ------------------------------------------
@@ -30,26 +36,18 @@ function fetchData(url) {
           .catch(err => console.log(err.message));
 }
 
-function assemble(peopleList) {
-  const wikiUrlList = peopleList.map(item => wikiUrl+item.name);
-  return wikiUrlList;
-}
 
 // The input data is the array of WikiURL, so 'data.map(item => fetch(item))'
 //  will produce a list of function/fetch array which can be passed into
 // promise.all
-function fetchArray(data) {
-  const x = data.map(item => {return fetchData(item);});
-  x.map(item=>item.then(data=> generateHTML(data)));
-}
-
-function generateHTML(data) {
+function generateHTML(data, data1) {
   const section = document.createElement('section');
   peopleList.appendChild(section);
   // Check if request returns a 'standard' page from Wiki
   if (data.type === 'standard') {
     section.innerHTML = `
     <img src=${data.thumbnail.source}>
+    <span>${data1}</span>
     <h2>${data.title}</h2>
     <p>${data.description}</p>
     <p>${data.extract}</p>
