@@ -51,6 +51,8 @@ function astroPromise(url) {
     xhr.onload = () => {
       if (xhr.status === 200) {
         let data = JSON.parse(xhr.responseText);
+
+        console.log(data);
         resolve(data);
         // The button disappears after loading the data
         document.querySelector('button').remove();
