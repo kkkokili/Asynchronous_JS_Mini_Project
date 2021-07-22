@@ -17,9 +17,10 @@ btn.addEventListener('click', trigger);
 function trigger() {
   btn.innerHTML="Loading...";
   fetchData(astroUrl)
-    .then(promise => promise.people.map(item => {return fetch(wikiUrl+item.name);}))
+    .then(promise => promise.people.map(item => {return [fetch(wikiUrl+item.name).then(response=>response.json()),item.craft];}))
     .then(fetcharray =>  Promise.all(fetcharray))
-    .then(response => response.map(item => item.json().then(data => generateHTML(data))))
+    .then(response => response.map(item=>item[0].then(data=>generateHTML(data,item[1]))))
+    // .then(response => response.map(item => item.json().then(data => generateHTML(data))))
     .finally(()=>btn.remove());
 }
 
@@ -36,13 +37,14 @@ function fetchData(url) {
 }
 
 
-function generateHTML(data) {
+function generateHTML(data,data1) {
   const section = document.createElement('section');
   peopleList.appendChild(section);
   // Check if request returns a 'standard' page from Wiki
   if (data.type === 'standard') {
     section.innerHTML = `
     <img src=${data.thumbnail.source}>
+    <span>${data1}</span>
     <h2>${data.title}</h2>
     <p>${data.description}</p>
     <p>${data.extract}</p>
