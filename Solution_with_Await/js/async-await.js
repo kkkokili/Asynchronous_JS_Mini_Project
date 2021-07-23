@@ -4,21 +4,24 @@ const wikiUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/';
 const peopleList = document.getElementById('people');
 const btn = document.querySelector('button');
 
+
 // Handle all fetch requests
 async function decode() {
-  const response = await fetch(astrosUrl);
-  const promise = await response.json();
-  // promise.poeple is an array of astros' names together with each one's relative craft
-  const x = promise.people.map(async item => {
-    const craft = item.craft;
-    const name = item.name;
-    const response1 = await fetch(wikiUrl + name);
-    const promise1 = await response1.json();
-    generateHTML(promise1, craft);
-  });
+  try {
+    const response = await fetch(astrosUrl);
+    const promise = await response.json();
+    // promise.poeple is an array of astros' names together with each one's relative craft
+    const x = promise.people.map(async item => {
+      const craft = item.craft;
+      const name = item.name;
+      const response1 = await fetch(wikiUrl + name);
+      const promise1 = await response1.json();
+      generateHTML(promise1, craft);
+    });
+  } catch(error) {
+    throw error;
+  }
 }
-
-
 
 // Generate the markup for each profile
 function generateHTML(data, data1) {
