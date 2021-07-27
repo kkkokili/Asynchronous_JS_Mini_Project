@@ -21,6 +21,7 @@ function trigger() {
     .then(fetcharray =>  Promise.all(fetcharray))
     .then(response => response.map(item=>item[0].then(data=>generateHTML(data,item[1]))))
     // .then(response => response.map(item => item.json().then(data => generateHTML(data))))
+    // finally is called once a promise is fully settled regardless of whether the promise is fullfilled or rejected
     .finally(()=>btn.remove());
 }
 
